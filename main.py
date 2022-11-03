@@ -41,7 +41,7 @@ async def get_messages():
 
         for x in messages:
             message_list.append(SourceMessage(x, channel_name))
-        time.sleep(300)
+        time.sleep(600)
 
     return message_list
 
