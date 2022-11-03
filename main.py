@@ -57,9 +57,9 @@ def filter_messages(message_list):
             continue
 
         for keyword in keywords:
-            # if keyword in message.message.text:
-            if message not in filtered_messages:
-                filtered_messages.append(message)
+            if keyword in message.message.text:
+                if message not in filtered_messages:
+                    filtered_messages.append(message)
             
     return filtered_messages
 
