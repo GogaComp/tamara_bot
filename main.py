@@ -41,7 +41,7 @@ async def get_messages():
 
         for x in messages:
             message_list.append(SourceMessage(x, channel_name))
-        time.sleep(20)
+        time.sleep(300)
 
     return message_list
 
@@ -56,7 +56,7 @@ def filter_messages(message_list):
         now = datetime.datetime.now(TIMEZONE)
         seconds_passed = now.timestamp() - message.message.date.timestamp()
 
-        if int(seconds_passed) > 300:
+        if int(seconds_passed) > 2000:
             continue
 
         for keyword in keywords:
@@ -90,7 +90,7 @@ def main():
             for i in posted_messages:
                 f.write(f"{i}\n")
 
-        time.sleep(250)
+        time.sleep(20 * 60)
 
 
 main()
