@@ -50,6 +50,9 @@ def filter_messages(message_list):
     filtered_messages = []
     
     for message in message_list:
+        if message == None or message == "None":
+            continue
+
         now = datetime.datetime.now(TIMEZONE)
         seconds_passed = now.timestamp() - message.message.date.timestamp()
 
