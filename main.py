@@ -41,7 +41,7 @@ async def get_messages():
 
         for x in messages:
             message_list.append(SourceMessage(x, channel_name))
-        time.sleep(5)
+        time.sleep(20)
 
     return message_list
 
@@ -90,7 +90,7 @@ def main():
             for i in posted_messages:
                 f.write(f"{i}\n")
 
-        time.sleep(5)
+        time.sleep(250)
 
 
 main()
