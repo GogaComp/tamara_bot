@@ -1,5 +1,6 @@
 import datetime
 import time
+import json
 import asyncio
 import configparser
 from telethon import TelegramClient
@@ -29,8 +30,23 @@ message_limit = config["Channels"]["message_limit"]
 
 keywords = config["Keywords"]["keyword_list"].split(" ")
 
+posted_messages_file = config["Files"]["posted_messages_file"]
+
 client = TelegramClient(username, api_id, api_hash)
 client.start()
+
+
+def load_json():
+    read = ""
+    with open(posted_messages_file, "r") as f:
+        read = f.read()
+    return json.loads(read)
+
+
+def save_json(message_arr):
+    with open(posted_messages_file, "w") as f:
+        f.write(json.dumps(message_arr))
+
 
 async def get_messages():
     channel = 0
@@ -41,7 +57,7 @@ async def get_messages():
 
         for x in messages:
             message_list.append(SourceMessage(x, channel_name))
-        time.sleep(600)
+        time.sleep(30)
 
     return message_list
 
@@ -68,8 +84,7 @@ def filter_messages(message_list):
 
 
 def main():
-    with open("posted.txt", "r", encoding="utf-8") as f:
-        posted_messages = f.readlines()
+    posted_messages = load_json()
 
     loop = asyncio.get_event_loop()
     bot = Bot(token=token, parse_mode=types.ParseMode.HTML)
@@ -86,9 +101,7 @@ def main():
                 loop.run_until_complete(bot.send_message(channel_id, formatted, parse_mode=types.ParseMode.MARKDOWN))
                 posted_messages.append(message.message.text)
                 
-        with open("posted.txt", "w", encoding="utf-8") as f:
-            for i in posted_messages:
-                f.write(f"{i}\n")
+        save_json(posted_messages)
 
         time.sleep(20 * 60)
 
